@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 [build-system]
-requires = ["hatchling==1.28.0"]
+requires = ["hatchling==1.31.0"]
 build-backend = "hatchling.build"
 
 [project]
@@ -14,7 +14,7 @@ dependencies = [
   "argon2-cffi==25.1.0",
   "beautifulsoup4==4.15.0",
   "cryptography==49.0.0",
-  "fastapi==0.139.2",
+  "fastapi==0.141.1",
   "httpcore==1.0.9",
   "httpx==0.28.1",
   "keyring==25.7.0",
@@ -27,13 +27,13 @@ dependencies = [
   "python-multipart==0.0.32",
   "python-pptx==1.0.2",
   "PyYAML==6.0.3",
-  "uvicorn==0.51.0",
+  "uvicorn==0.52.0",
 ]
 
 [project.optional-dependencies]
 build = [
-    "editables==0.5",
-    "hatchling==1.28.0",
+    "editables==0.6",
+    "hatchling==1.31.0",
 ]
 dev = [
     "pytest==9.1.1",
@@ -46,8 +46,8 @@ memorizer = "local_knowledge.memorizer.cli:main"
 
 [tool.uv]
 build-constraint-dependencies = [
-    "editables==0.5",
-    "hatchling==1.28.0",
+    "editables==0.6",
+    "hatchling==1.31.0",
     "packaging==26.2",
     "pathspec==1.1.1",
     "pluggy==1.6.0",

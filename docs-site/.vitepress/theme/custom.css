@@ -1,0 +1,21 @@
+/* SPDX-License-Identifier: MIT
+ * Copyright (c) 2026 John-IDK
+ */
+
+:root {
+  --vp-c-brand-1: #21664e;
+  --vp-c-brand-2: #18513e;
+  --vp-c-brand-3: #10231f;
+  --vp-c-brand-soft: rgba(33, 102, 78, 0.14);
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(120deg, #10231f 20%, #21664e);
+}
+
+.VPHomeHero .text {
+  max-width: 720px;
+}
+
+.vp-doc table {
+  width: 100%;
+  display: table;
+}

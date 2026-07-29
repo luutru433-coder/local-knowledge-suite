@@ -1,0 +1,23 @@
+{
+  "name": "local-knowledge-suite-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": ">=22.12.0 <23",
+    "pnpm": "11.9.0"
+  },
+  "scripts": {
+    "build": "pnpm run build:portal && pnpm run build:docs",
+    "build:portal": "pnpm --filter @local-knowledge-suite/portal build",
+    "build:docs": "pnpm --filter @local-knowledge-suite/docs build",
+    "lint": "pnpm run lint:web",
+    "lint:fix": "pnpm run lint:web:fix",
+    "lint:web": "pnpm --filter @local-knowledge-suite/portal lint",
+    "lint:web:fix": "pnpm --filter @local-knowledge-suite/portal lint:fix",
+    "typecheck": "pnpm --filter @local-knowledge-suite/portal typecheck",
+    "release:verify": "powershell -NoProfile -ExecutionPolicy Bypass -File tools/release/Test-Release.ps1",
+    "release:package": "powershell -NoProfile -ExecutionPolicy Bypass -File tools/release/New-Release.ps1"
+  }
+}

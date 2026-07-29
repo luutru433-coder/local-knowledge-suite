@@ -1,0 +1,13 @@
+<!-- SPDX-License-Identifier: MIT -->
+<!-- Copyright (c) 2026 John-IDK -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 240" role="img" aria-labelledby="title">
+  <title id="title">Local Knowledge Suite</title>
+  <rect width="240" height="240" rx="52" fill="#dcece4"/>
+  <path d="M48 61c0-11 9-20 20-20h45c18 0 32 14 32 32v108c-8-8-18-12-30-12H68c-11 0-20-9-20-20V61Z" fill="#10231f"/>
+  <path d="M192 61c0-11-9-20-20-20h-27v140c8-8 18-12 30-12 10 0 17-8 17-20V61Z" fill="#21664e"/>
+  <circle cx="94" cy="92" r="9" fill="#dfb866"/>
+  <circle cx="94" cy="126" r="9" fill="#dfb866"/>
+  <path d="M103 92h22M103 126h22M94 101v16" stroke="#dfb866" stroke-width="7" stroke-linecap="round"/>
+  <text x="290" y="105" fill="#f4f2ea" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="700">Local Knowledge</text>
+  <text x="290" y="164" fill="#8fd1b1" font-family="Segoe UI, Arial, sans-serif" font-size="42" font-weight="600" letter-spacing="8">SUITE</text>
+</svg>

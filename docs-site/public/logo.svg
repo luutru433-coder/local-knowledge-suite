@@ -1,0 +1,13 @@
+<!-- SPDX-License-Identifier: MIT -->
+<!-- Copyright (c) 2026 John-IDK -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title">
+  <title id="title">Local Knowledge Suite</title>
+  <rect width="256" height="256" rx="56" fill="#10231f"/>
+  <path d="M52 65c0-11 9-20 20-20h48c18 0 32 14 32 32v111c-8-8-18-12-30-12H72c-11 0-20-9-20-20V65Z" fill="#f4f2ea"/>
+  <path d="M204 65c0-11-9-20-20-20h-32v143c8-8 18-12 30-12h2c11 0 20-9 20-20V65Z" fill="#dcece4"/>
+  <circle cx="98" cy="96" r="10" fill="#21664e"/>
+  <circle cx="98" cy="132" r="10" fill="#21664e"/>
+  <path d="M108 96h22M108 132h22M98 106v16" stroke="#21664e" stroke-width="8" stroke-linecap="round"/>
+  <path d="M169 77v60" stroke="#21664e" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="169" cy="153" r="7" fill="#21664e"/>
+</svg>

@@ -1,0 +1,11 @@
+interface:
+  display_name: "Company Knowledge Base"
+  short_description: "Operate shared cited Windows knowledge"
+  default_prompt: "Use $company-knowledge-base to ingest, review, or answer from the selected registered company repository using only verified citations."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "local-knowledge"
+      description: "Company-aware status and evidence-preserving recall"
+      transport: "stdio"

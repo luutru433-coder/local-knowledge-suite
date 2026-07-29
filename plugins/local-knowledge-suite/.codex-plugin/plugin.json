@@ -1,0 +1,45 @@
+{
+  "name": "local-knowledge-suite",
+  "version": "1.0.0",
+  "description": "Local-first project memory and citation-backed company knowledge for Windows.",
+  "author": {
+    "name": "John-IDK",
+    "url": "https://github.com/luutru433-coder"
+  },
+  "homepage": "https://luutru433-coder.github.io/local-knowledge-suite/",
+  "repository": "https://github.com/luutru433-coder/local-knowledge-suite",
+  "license": "MIT",
+  "keywords": [
+    "knowledge",
+    "memory",
+    "citations",
+    "local-first",
+    "windows",
+    "multi-project"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Local Knowledge Suite",
+    "shortDescription": "Reusable memory and cited knowledge for Windows",
+    "longDescription": "A self-contained Windows plugin for isolated per-project memory, shared Git-backed company knowledge, cited recall, workspace bootstrap, and safe global or vendored installation.",
+    "developerName": "John-IDK",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write",
+      "Local runtime"
+    ],
+    "defaultPrompt": [
+      "Set up local knowledge for this Windows project.",
+      "Recall project memory and cited company evidence.",
+      "Remember this durable project decision safely."
+    ],
+    "brandColor": "#21664E",
+    "websiteURL": "https://luutru433-coder.github.io/local-knowledge-suite/",
+    "privacyPolicyURL": "https://luutru433-coder.github.io/local-knowledge-suite/en/privacy/",
+    "composerIcon": "./assets/icon.svg",
+    "logo": "./assets/logo.svg",
+    "logoDark": "./assets/logo-dark.svg"
+  }
+}

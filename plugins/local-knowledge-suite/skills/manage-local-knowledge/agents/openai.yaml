@@ -1,0 +1,11 @@
+interface:
+  display_name: "Manage Local Knowledge"
+  short_description: "Route reusable Windows project knowledge"
+  default_prompt: "Use $manage-local-knowledge to start this project with private Memory, optionally connect cited company knowledge, and verify the result."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "local-knowledge"
+      description: "Workspace bootstrap, status, recall, and durable memory capture"
+      transport: "stdio"

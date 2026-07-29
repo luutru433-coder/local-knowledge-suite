@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 John-IDK
+
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability privately
+    url: https://github.com/luutru433-coder/local-knowledge-suite/security/advisories/new
+    about: Do not put credentials, company data, or vulnerability details in a public issue.
+  - name: Read the documentation
+    url: https://luutru433-coder.github.io/local-knowledge-suite/
+    about: Check setup, migration, and troubleshooting instructions first.

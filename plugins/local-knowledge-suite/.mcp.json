@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "local-knowledge": {
+      "command": "cmd.exe",
+      "cwd": ".",
+      "args": [
+        "/d",
+        "/s",
+        "/c",
+        "\"\"%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \".\\scripts\\Invoke-LocalKnowledge.ps1\" -Tool mcp\""
+      ],
+      "env": {
+        "PYTHONUTF8": "1",
+        "PYTHONIOENCODING": "utf-8"
+      },
+      "startup_timeout_sec": 120,
+      "tool_timeout_sec": 300,
+      "default_tools_approval_mode": "writes"
+    }
+  }
+}

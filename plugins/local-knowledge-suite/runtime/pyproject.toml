@@ -1,0 +1,62 @@
+# SPDX-FileCopyrightText: 2026 John-IDK
+# SPDX-License-Identifier: MIT
+
+[build-system]
+requires = ["hatchling==1.28.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "local-knowledge-runtime"
+version = "1.0.0"
+description = "Windows-first portable runtime for workspace memory and cited company knowledge"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "argon2-cffi==25.1.0",
+  "beautifulsoup4==4.15.0",
+  "cryptography==49.0.0",
+  "fastapi==0.139.2",
+  "httpcore==1.0.9",
+  "httpx==0.28.1",
+  "keyring==25.7.0",
+  "mcp==1.28.1",
+  "numpy==2.5.1",
+  "openpyxl==3.1.5",
+  "pydantic==2.13.4",
+  "pypdfium2==5.12.1",
+  "python-docx==1.2.0",
+  "python-multipart==0.0.32",
+  "python-pptx==1.0.2",
+  "PyYAML==6.0.3",
+  "uvicorn==0.51.0",
+]
+
+[project.optional-dependencies]
+build = [
+    "editables==0.5",
+    "hatchling==1.28.0",
+]
+dev = [
+    "pytest==9.1.1",
+]
+
+[project.scripts]
+local-knowledge = "local_knowledge.cli:main"
+ckb = "local_knowledge.ckb.cli:main"
+memorizer = "local_knowledge.memorizer.cli:main"
+
+[tool.uv]
+build-constraint-dependencies = [
+    "editables==0.5",
+    "hatchling==1.28.0",
+    "packaging==26.2",
+    "pathspec==1.1.1",
+    "pluggy==1.6.0",
+    "trove-classifiers==2026.6.1.19",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/local_knowledge"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

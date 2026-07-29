@@ -1,0 +1,253 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 John-IDK
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows-release-gate:
+    name: Windows release gate
+    runs-on: windows-latest
+    timeout-minutes: 60
+    env:
+      PYTHONUTF8: "1"
+      PYTHONIOENCODING: utf-8
+      RUNTIME_ROOT: plugins/local-knowledge-suite/runtime
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Install Python 3.12
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990 # v8.3.2
+        with:
+          version: "0.11.28"
+          enable-cache: true
+          cache-dependency-glob: plugins/local-knowledge-suite/runtime/uv.lock
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6
+        with:
+          version: 11.9.0
+          run_install: false
+
+      - name: Install Node 22
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "22"
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Validate metadata, secrets, versions, paths, and PowerShell
+        shell: powershell
+        run: ./tools/release/Test-Release.ps1
+
+      - name: Test strict release policy
+        shell: powershell
+        run: ./tools/release/Test-ReleasePolicySelfTest.ps1
+
+      - name: Resolve product version
+        id: version
+        # PowerShell 7 writes GitHub command files as UTF-8. Windows
+        # PowerShell 5.1 redirects with UTF-16LE, which GitHub cannot parse.
+        shell: pwsh
+        run: |
+          $manifest = Get-Content plugins/local-knowledge-suite/.codex-plugin/plugin.json -Raw | ConvertFrom-Json
+          "version=$($manifest.version)" >> $env:GITHUB_OUTPUT
+          "RELEASE_VERSION=$($manifest.version)" >> $env:GITHUB_ENV
+
+      - name: Check out pinned official OpenAI Skill validator
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          repository: openai/skills
+          ref: 49f948faa9258a0c61caceaf225e179651397431
+          path: .release-tools/openai-skills
+          persist-credentials: false
+          sparse-checkout: skills/.system/skill-creator
+
+      - name: Check out pinned official OpenAI plugin validator
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          repository: openai/codex
+          ref: f9b18d04ba78266b1e802ae2f85ff5ebea1e973a
+          path: .release-tools/openai-codex
+          persist-credentials: false
+          sparse-checkout: codex-rs/skills/src/assets/samples/plugin-creator
+
+      - name: Run official plugin validator
+        shell: powershell
+        run: >-
+          uv run --no-project --with PyYAML==6.0.3 python
+          .release-tools/openai-codex/codex-rs/skills/src/assets/samples/plugin-creator/scripts/validate_plugin.py
+          plugins/local-knowledge-suite
+
+      - name: Validate company knowledge skill
+        shell: powershell
+        run: >-
+          uv run --no-project --with PyYAML==6.0.3 python
+          .release-tools/openai-skills/skills/.system/skill-creator/scripts/quick_validate.py
+          plugins/local-knowledge-suite/skills/company-knowledge-base
+
+      - name: Validate project routing skill
+        shell: powershell
+        run: >-
+          uv run --no-project --with PyYAML==6.0.3 python
+          .release-tools/openai-skills/skills/.system/skill-creator/scripts/quick_validate.py
+          plugins/local-knowledge-suite/skills/manage-local-knowledge
+
+      - name: Validate project memory skill
+        shell: powershell
+        run: >-
+          uv run --no-project --with PyYAML==6.0.3 python
+          .release-tools/openai-skills/skills/.system/skill-creator/scripts/quick_validate.py
+          plugins/local-knowledge-suite/skills/memorizer
+
+      - name: Synchronize pinned Python runtime
+        shell: powershell
+        run: >-
+          uv sync --project $env:RUNTIME_ROOT --frozen
+          --extra build --extra dev
+
+      - name: Verify MCP initialize and tools contract
+        shell: powershell
+        run: ./tools/release/Test-McpHandshake.ps1
+
+      - name: Smoke test actual vendored installer
+        shell: powershell
+        run: ./tools/release/Test-VendoredInstall.ps1
+
+      - name: Run Python and portable tests
+        shell: powershell
+        run: |
+          $env:PYTHONPATH = (Resolve-Path "$env:RUNTIME_ROOT/src").Path
+          uv run --project $env:RUNTIME_ROOT --frozen `
+            --extra build --extra dev python -m pytest tests
+
+      - name: Install pinned JavaScript workspace
+        shell: powershell
+        run: pnpm install --frozen-lockfile
+
+      - name: Type-check portal
+        shell: powershell
+        run: pnpm typecheck
+
+      - name: Build portal and VitePress documentation
+        shell: powershell
+        run: pnpm build
+
+      - name: Package portal
+        shell: powershell
+        run: ./plugins/local-knowledge-suite/scripts/Build-LocalKnowledgePortal.ps1
+
+      - name: Verify packaged portal is current
+        shell: powershell
+        run: |
+          $portalStatus = @(
+            git status --porcelain --untracked-files=all -- `
+              plugins/local-knowledge-suite/runtime/src/local_knowledge/portal
+          )
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+          }
+          if ($portalStatus.Count -gt 0) {
+            $portalStatus | Write-Output
+            throw "The packaged portal differs from the pinned web build."
+          }
+
+      - name: Test dependency license policy
+        shell: powershell
+        run: ./tools/release/Test-LicenseGateSelfTest.ps1
+
+      - name: Create release evidence directory
+        shell: powershell
+        run: New-Item -ItemType Directory -Path artifacts -Force | Out-Null
+
+      - name: Generate Python license inventory
+        shell: powershell
+        run: >-
+          uv run --project $env:RUNTIME_ROOT --frozen
+          --extra build --extra dev python
+          tools/release/python_license_report.py
+          --output artifacts/python-licenses.json
+
+      - name: Self-test deterministic Node dependency inventory
+        shell: powershell
+        run: python tools/release/test_node_license_report.py
+
+      - name: Generate installed Node dependency inventory
+        shell: powershell
+        run: >-
+          python tools/release/node_license_report.py
+          --output artifacts/node-licenses.json
+
+      - name: Enforce dependency license allowlist
+        shell: powershell
+        run: |
+          ./tools/release/Test-DependencyLicenses.ps1 `
+            -PythonReport artifacts/python-licenses.json `
+            -NodeReport artifacts/node-licenses.json
+
+      - name: Stage and package full-source product
+        shell: powershell
+        run: >-
+          ./tools/release/New-Release.ps1
+          -Version "$env:RELEASE_VERSION"
+
+      - name: Generate CycloneDX SBOM from shipped product
+        uses: anchore/sbom-action@f8bdd1d8ac5e901a77a92f111440fdb1b593736b # v0.20.6
+        with:
+          path: artifacts/staged-product-v${{ steps.version.outputs.version }}
+          format: cyclonedx-json
+          output-file: artifacts/local-knowledge-suite-v${{ steps.version.outputs.version }}-sbom.cdx.json
+          syft-version: v1.33.0
+          upload-artifact: false
+          upload-release-assets: false
+
+      - name: Normalize and validate SBOM product metadata
+        shell: powershell
+        run: |
+          ./tools/release/Normalize-CycloneDxSbom.ps1 `
+            -Path "artifacts/local-knowledge-suite-v$env:RELEASE_VERSION-sbom.cdx.json" `
+            -Version "$env:RELEASE_VERSION"
+
+      - name: Create final checksums
+        shell: powershell
+        run: ./tools/release/Write-ReleaseChecksums.ps1
+
+      - name: Verify final release candidate
+        shell: powershell
+        run: |
+          ./tools/release/Test-ReleaseArtifacts.ps1 `
+            -Version "$env:RELEASE_VERSION" `
+            -RequireSbom
+
+      - name: Upload release evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: windows-release-evidence
+          path: |
+            artifacts/*.json
+            artifacts/*.zip
+            artifacts/SHA256SUMS
+            artifacts/THIRD_PARTY_NOTICES.md
+          if-no-files-found: warn
+          retention-days: 14

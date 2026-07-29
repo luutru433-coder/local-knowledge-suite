@@ -1,0 +1,20 @@
+{
+  "name": "john-idk",
+  "interface": {
+    "displayName": "John-IDK"
+  },
+  "plugins": [
+    {
+      "name": "local-knowledge-suite",
+      "source": {
+        "source": "local",
+        "path": "./plugins/local-knowledge-suite"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

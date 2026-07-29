@@ -1,0 +1,11 @@
+interface:
+  display_name: "Memorizer"
+  short_description: "Maintain isolated Windows project memory"
+  default_prompt: "Use $memorizer to safely remember and verify durable context for this project."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "local-knowledge"
+      description: "Project-scoped memory recall, capture, and status"
+      transport: "stdio"

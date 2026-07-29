@@ -1,0 +1,75 @@
+# Local Knowledge private and derived state
+**/.ckb/
+**/.memorizer/
+**/.local-sources/
+.local-knowledge/project.toml
+.local-knowledge/company.toml
+.local-knowledge/vendor-lock.json
+.local-knowledge/backups/
+.local-knowledge/memory-snapshot/
+/knowledge/
+.codex/config.toml
+
+# Python
+**/.venv/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+**/.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+.uv-cache/
+**/.uv-cache/
+.pt-portable-*/
+.tmp-vendor-*/
+
+# Node and generated web assets
+node_modules/
+**/node_modules/
+.pnpm-store/
+**/.pnpm-store/
+*.tsbuildinfo
+web/dist/
+docs-site/.vitepress/cache/
+docs-site/.vitepress/dist/
+/.release-tools/
+
+# Local databases, logs, caches, and editor files
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.log
+logs/
+.cache/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Environment files and credentials
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+*.pfx
+*.p12
+*.jks
+*.keystore
+*.kdbx
+credentials.json
+service-account*.json
+
+# Release output
+/artifacts/
+/release/
+*.zip
+*.sha256
+*.spdx.json
+*.cdx.json

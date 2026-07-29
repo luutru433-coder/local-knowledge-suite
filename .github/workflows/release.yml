@@ -226,7 +226,7 @@ jobs:
           -Version "$env:RELEASE_VERSION"
 
       - name: Generate CycloneDX SBOM from shipped product
-        uses: anchore/sbom-action@f8bdd1d8ac5e901a77a92f111440fdb1b593736b # v0.20.6
+        uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610 # v0.24.0
         with:
           path: artifacts/staged-product-v${{ steps.version.outputs.version }}
           format: cyclonedx-json

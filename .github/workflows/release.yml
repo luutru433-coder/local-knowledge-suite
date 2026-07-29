@@ -27,7 +27,7 @@ jobs:
 
     steps:
       - name: Check out tagged source
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
 
@@ -89,7 +89,7 @@ jobs:
         run: ./tools/release/Test-ReleasePolicySelfTest.ps1
 
       - name: Check out pinned official OpenAI Skill validator
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: openai/skills
           ref: 49f948faa9258a0c61caceaf225e179651397431
@@ -98,7 +98,7 @@ jobs:
           sparse-checkout: skills/.system/skill-creator
 
       - name: Check out pinned official OpenAI plugin validator
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: openai/codex
           ref: f9b18d04ba78266b1e802ae2f85ff5ebea1e973a
@@ -279,7 +279,7 @@ jobs:
 
     steps:
       - name: Check out tagged source without persisted credentials
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false

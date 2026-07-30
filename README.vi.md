@@ -129,6 +129,7 @@ sau khi review. Repo sản phẩm này ignore
 
 ## Tài liệu
 
+- [Hướng dẫn dùng project nhận từ GitHub, không cần terminal](https://luutru433-coder.github.io/local-knowledge-suite/guide/using-cloned-project)
 - [Hướng dẫn tiếng Việt đầy đủ](https://luutru433-coder.github.io/local-knowledge-suite/)
 - [English guide](https://luutru433-coder.github.io/local-knowledge-suite/en/)
 - [Checklist chuyển máy Windows](docs/MIGRATION_CHECKLIST.vi.md)

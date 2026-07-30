@@ -7,6 +7,7 @@ const viSidebar = [
   {
     text: "Bắt đầu",
     items: [
+      { text: "Nhận project từ GitHub", link: "/guide/using-cloned-project" },
       { text: "Cài đặt nhanh", link: "/guide/getting-started" },
       { text: "Skill, MCP và dữ liệu", link: "/guide/concepts" },
       { text: "Global và vendored", link: "/guide/install-modes" }
@@ -38,6 +39,7 @@ const enSidebar = [
   {
     text: "Start",
     items: [
+      { text: "Use a cloned GitHub project", link: "/en/guide/using-cloned-project" },
       { text: "Quick installation", link: "/en/guide/getting-started" },
       { text: "Skills, MCP, and data", link: "/en/guide/concepts" },
       { text: "Global and vendored", link: "/en/guide/install-modes" }

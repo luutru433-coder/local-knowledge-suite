@@ -18,7 +18,7 @@ dependencies = [
   "httpcore==1.0.9",
   "httpx==0.28.1",
   "keyring==25.7.0",
-  "mcp==1.28.1",
+  "mcp==1.30.0",
   "numpy==2.5.1",
   "openpyxl==3.1.5",
   "pydantic==2.13.4",
